@@ -1,0 +1,5 @@
+package fr.keyce.todo_list.dao;
+
+public interface TodoDao {
+
+}

@@ -1,0 +1,17 @@
+package fr.keyce.todo_list.db;
+
+public class Database {
+	
+	private final static Database INSTANCE = new Database();
+	
+	private Map<Integer, Todo> map;
+
+	private Database() {
+		this.map = new TreeMap<Integer, Todo>;
+	}
+	
+	public static Database getInstance() {
+		return INSTANCE;
+	}
+	
+}

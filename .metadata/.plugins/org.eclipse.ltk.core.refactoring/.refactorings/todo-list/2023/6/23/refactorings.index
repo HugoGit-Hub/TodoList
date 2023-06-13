@@ -1,0 +1,27 @@
+1686141703571	Extract local variable 'value'
+1686143449718	Delete element
+1686145679714	Delete element
+1686145699645	Move compilation units
+1686147390071	Rename type 'Priorite'
+1686209508888	Copy package
+1686209517012	Delete element
+1686209553330	Delete element
+1686209921241	Delete element
+1686210041146	Copy package
+1686210071562	Rename package 'fr.keyce.todo_list.services.copy'
+1686210106877	Delete element
+1686210126372	Delete element
+1686210147821	Delete element
+1686210175946	Delete element
+1686212354583	Rename compilation unit 'TodoDao.java'
+1686212971855	Copy package
+1686212981204	Delete elements
+1686212989935	Delete element
+1686212996430	Delete element
+1686213004207	Rename package 'fr.keyce.todo_list.dao.copy'
+1686215596693	Delete element
+1686248503177	Delete element
+1686302555781	Extract method 'create'
+1686305734673	Extract local variable 'entrySet'
+1686306080200	Extract local variable 'id'
+1686321883675	Extract local variable 'parameter'

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
+		<item key="selection" value="&lt;% out.println(todo.getName()); %&gt; /"/>
+		<list key="findhistory">
+			<item value="&lt;% out.println(todo.getName()); %&gt; /"/>
+			<item value="todoDao.update();"/>
+		</list>
+	</section>
+</section>

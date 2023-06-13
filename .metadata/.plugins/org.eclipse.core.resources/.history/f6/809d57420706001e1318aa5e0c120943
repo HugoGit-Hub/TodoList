@@ -1,0 +1,51 @@
+<%@page import="java.util.ArrayList"%>
+<%@page import="java.util.List"%>
+<%@page import="fr.keyce.todo_list.model.Todo"%>
+<%@page import="java.util.Map"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>TodoList</title>
+	</head>
+	<body>
+	
+		<c:url var="todoCreateUrl" value="/TodoCreate"/>
+		<a href="${todoCreateUrl}">Ajouter</a>
+	
+		<div>
+			<h1>TodoList</h1>
+			<c:forEach items="${getAllTodo}" var="todo">
+				<div style="margin:20px">
+					<label for="name">Name:</label>
+					<input type="text" id="name" name="name" value="${todo.getName()}">
+			 		
+			 		<label for="description">Description:</label>
+					<input type="text" id="description" name="description" value="${todo.getDescription()}">
+					
+					<label for="creationDate">Creation Date:</label>
+					<input type="text" id="creationDate" name="creationDate" value="${todo.getCreationDate()}">
+					
+					<label for="deadLine">Dead line :</label>
+					<input type="text" id="deadLine" name="deadLine" value="${todo.getDeadLine()}">
+					
+					<label for="priority">Dead line :</label>
+					<input type="text" id="priority" name="priority" value="${todo.getPriority()}">
+			 		
+			 		
+				 	<form method="post" action="http://localhost:8080/todo-list/TodoList">
+						<input type="hidden" name="id" value="${todo.getId()}">
+						<input type="submit" name="action" value="Supprimer">
+					</form>
+					<form method="post" action="http://localhost:8080/todo-list/TodoList">
+						<input type="hidden" name="todo" value="${todo}">
+						<input type="submit" name="action" value="Modifier">
+					</form>
+				</div><hr/>
+			</c:forEach>
+		</div>
+	</body>
+</html>

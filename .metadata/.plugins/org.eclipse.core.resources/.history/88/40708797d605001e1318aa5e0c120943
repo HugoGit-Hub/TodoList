@@ -1,0 +1,24 @@
+package fr.keyce.todo_list.dao;
+
+import java.util.List;
+
+import fr.keyce.todo_list.model.Todo;
+import fr.keyce.todo_list.services.Impl.TodoServiceImpl;
+
+public class TodoDaoDb implements TodoDao {
+
+	private final static TodoDaoDb INSTANCE = new TodoDaoDb();
+	
+	private TodoDaoDb() {};
+
+	public static TodoDaoDb getInstance() {
+		return INSTANCE;
+	}
+	
+	@Override
+	public List<Todo> findAll() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

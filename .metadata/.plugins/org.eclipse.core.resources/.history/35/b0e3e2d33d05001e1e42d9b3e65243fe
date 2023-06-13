@@ -1,0 +1,5 @@
+package fr.keyce.todo_list.model;
+
+public enum Priorite {
+
+}

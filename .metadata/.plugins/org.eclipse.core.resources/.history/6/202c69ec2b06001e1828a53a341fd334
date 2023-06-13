@@ -1,0 +1,60 @@
+package fr.keyce.todo_list.controllers;
+
+import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import fr.keyce.todo_list.model.Priority;
+import fr.keyce.todo_list.model.Todo;
+import fr.keyce.todo_list.services.TodoService;
+import fr.keyce.todo_list.services.Impl.TodoServiceImpl;
+
+@WebServlet(name = "TodoCreateServlet", urlPatterns = { "/TodoCreate" })
+public class TodoCreateServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+    private TodoService service = TodoServiceImpl.getInstance();
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		System.out.println(request.getRequestURI() + " > forward vers /jsp/todoCreate.jsp");
+		request.getRequestDispatcher("/jsp/todoCreate.jsp").forward(request, response);
+	}
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+System.out.println("Je suis dans le post create todo");
+		
+		Todo create = new Todo();
+		try {
+			create.setId(Integer.parseInt(request.getParameter("id")));
+			create.setName(request.getParameter("name"));
+			create.setDescription(request.getParameter("description"));
+			create.setCreationDate(new Date());
+			create.setDeadLine(new SimpleDateFormat("dd/MM/yyyy").parse(request.getParameter("deadLine")));
+			switch (request.getParameter("priority")) {
+				case "LOW": {
+					create.setPriority(Priority.LOW);			
+				}
+				case "NORMAL": {
+					create.setPriority(Priority.NORMAL);
+				}
+				case "HIGH": {
+					create.setPriority(Priority.HIGH);
+				}
+			}
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		
+                                                                                                                                                                                                                                                                                                    		
+		service.create(create);
+		response.sendRedirect("http://localhost:8080/todo-list/TodoList");
+	}
+
+}

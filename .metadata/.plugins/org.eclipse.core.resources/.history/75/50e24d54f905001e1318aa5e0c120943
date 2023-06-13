@@ -1,0 +1,12 @@
+package fr.keyce.todo_list.services;
+
+import java.util.List;
+
+import fr.keyce.todo_list.model.Todo;
+
+public interface TodoService {
+
+	List<Todo> findAll();
+	void delete(Integer id);
+	Todo update(Todo todo);
+}

@@ -1,0 +1,12 @@
+package fr.keyce.todo_list.db;
+
+public class Database {
+	
+	private final static Database INSTANCE = new Database();
+	
+	private Database() {}
+	
+	public static Database getInstance() {
+		return INSTANCE;
+	}
+}

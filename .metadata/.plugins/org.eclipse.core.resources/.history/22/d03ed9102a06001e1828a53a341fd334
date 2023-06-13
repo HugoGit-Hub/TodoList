@@ -1,0 +1,81 @@
+package fr.keyce.todo_list.controllers;
+
+import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import fr.keyce.todo_list.model.Priority;
+import fr.keyce.todo_list.model.Todo;
+import fr.keyce.todo_list.services.TodoService;
+import fr.keyce.todo_list.services.Impl.TodoServiceImpl;
+
+@WebServlet(name = "TodoListServlet", urlPatterns = "/TodoList")
+public class TodoListServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+	
+	private TodoService todoService = TodoServiceImpl.getInstance();
+       
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		System.out.println(request.getRequestURI() + " > forward vers /jsp/todoList.jsp");
+		List<Todo> todos = this.todoService.findAll();		
+		RequestDispatcher requestDispatcher = request.getRequestDispatcher("/jsp/todoList.jsp");
+		request.setAttribute("getAllTodo", todos);
+	
+		requestDispatcher.forward(request, response);
+	}
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {		
+		switch (request.getParameter("action")) {
+			case "Supprimer": {
+				todoService.delete(Integer.parseInt(request.getParameter("id")));
+				response.sendRedirect("http://localhost:8080/todo-list/TodoList");
+				break;
+			}
+			case "Modifier":{
+				Todo update = new Todo();
+				update.setId(Integer.parseInt(request.getParameter("id")));
+				update.setName(request.getParameter("name"));
+				update.setDescription(request.getParameter("description"));
+				
+				try {
+					Date convertDate = new SimpleDateFormat("dd/MM/yyyy").parse(request.getParameter("creationDate"));
+					update.setCreationDate(convertDate);
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+				
+				try {
+					Date convertDate = new SimpleDateFormat("dd/MM/yyyy").parse(request.getParameter("deadLine"));
+					update.setDeadLine(convertDate);
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+				
+				switch (request.getParameter("priority")) {
+					case "LOW": {
+						update.setPriority(Priority.LOW);			
+					}
+					case "NORMAL": {
+						update.setPriority(Priority.NORMAL);
+					}
+					case "HIGH": {
+						update.setPriority(Priority.HIGH);
+					}
+				}
+				
+				todoService.update(update);
+				response.sendRedirect("http://localhost:8080/todo-list/TodoList");
+				break;
+			}
+		}
+	}
+}

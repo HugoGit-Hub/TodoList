@@ -1,0 +1,81 @@
+package fr.keyce.todo_list.controllers;
+
+import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import fr.keyce.todo_list.dao.TodoDao;
+import fr.keyce.todo_list.model.Priority;
+import fr.keyce.todo_list.model.Todo;
+import fr.keyce.todo_list.services.TodoService;
+import fr.keyce.todo_list.services.Impl.TodoServiceImpl;
+
+@WebServlet(name = "TodoListServlet", urlPatterns = "/TodoList")
+public class TodoListServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+	
+	private TodoService todoService = TodoServiceImpl.getInstance();
+       
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		System.out.println(request.getRequestURI() + " > forward vers /jsp/todoList.jsp");
+		List<Todo> todos = this.todoService.findAll();		
+		RequestDispatcher requestDispatcher = request.getRequestDispatcher("/jsp/todoList.jsp");
+		request.setAttribute("getAllTodo", todos);
+	
+		requestDispatcher.forward(request, response);
+	}
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		Todo update = new Todo();
+		
+		String id = request.getParameter("id");
+		update.setName(id);
+		
+		String name = request.getParameter("name");
+		update.setName(name);
+		
+		String description = request.getParameter("description");
+		update.setDescription(description);
+		
+		String creationDate = request.getParameter("creationDate");
+		try {
+			Date convertDate = new SimpleDateFormat("dd/MM/yyyy").parse(creationDate);
+			update.setCreationDate(convertDate);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		
+		String deadLine = request.getParameter("deadLine");
+		try {
+			Date convertDate = new SimpleDateFormat("dd/MM/yyyy").parse(deadLine);
+			update.setDeadLine(convertDate);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		
+		String priority = request.getParameter("priority");
+		switch (priority) {
+			case "LOW": {
+				update.setPriority(Priority.LOW);			
+			}
+			case "NORMAL": {
+				update.setPriority(Priority.NORMAL);
+			}
+			case "HIGH": {
+				update.setPriority(Priority.HIGH);
+			}
+		}
+		
+		todoService.update(update);
+	}
+}

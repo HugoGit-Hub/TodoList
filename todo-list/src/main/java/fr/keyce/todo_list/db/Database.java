@@ -1,0 +1,53 @@
+package fr.keyce.todo_list.db;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.TreeMap;
+
+import fr.keyce.todo_list.model.Priority;
+import fr.keyce.todo_list.model.Todo;
+
+public class Database {
+	
+	private final static Database INSTANCE = new Database();
+	
+	private TreeMap<Integer, Todo> map;
+
+	private Database() {
+		this.map = new TreeMap<Integer, Todo>();
+		Todo todoCrevette = Todo.create(1, "Crevette", "500 grammes", new Date(), new Date(), Priority.NORMAL);
+		this.map.put(todoCrevette.getId(), todoCrevette);
+		Todo todoRiz = Todo.create(2, "Riz", "200 grammes", new Date(), new Date(), Priority.NORMAL);
+		this.map.put(todoRiz.getId(), todoRiz);
+		Todo todoSauceCurry = Todo.create(3, "Sauce curry", "50 grammes", new Date(), new Date(), Priority.NORMAL);
+		this.map.put(todoSauceCurry.getId(), todoSauceCurry);
+	}
+	
+	public static Database getInstance() {
+		return INSTANCE;
+	}
+	
+	public List<Todo> selectAll(){
+		var value = this.map.values();
+		return new ArrayList<>(value);
+	}
+	
+	public void delete(Integer id) {
+		map.remove(id);
+	}
+	
+	public Todo update(Todo todo) {
+		return map.replace(todo.getId(), todo);
+	}
+	
+	public Todo create(Todo todo) {
+		int id = lastKey() + 1;
+		todo.setId(id);
+		return map.put(id, todo);
+	}
+	
+	private Integer lastKey() {
+		return this.map.lastKey();
+	}
+}

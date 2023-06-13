@@ -1,0 +1,16 @@
+package fr.keyce.todo_list.dao;
+
+import java.util.Map;
+
+import fr.keyce.todo_list.db.Database;
+import fr.keyce.todo_list.model.Todo;
+
+public class TodoDao {
+	
+	private Database database; 
+	
+	public Todo create(Todo todo) {
+		var instance = Database.getInstance();
+		M
+	}
+}

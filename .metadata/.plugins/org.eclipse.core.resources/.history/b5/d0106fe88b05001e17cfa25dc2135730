@@ -1,0 +1,24 @@
+package fr.keyce.todo_list.dao;
+
+import java.util.Map;
+
+import fr.keyce.todo_list.db.Database;
+import fr.keyce.todo_list.model.Todo;
+
+public class TodoDao {
+		
+	public Todo create(Todo todo) {
+		Map<Integer, Todo> map = Database.getInstance().getMap();
+		return map.put(todo.getId(), todo);
+	}
+	
+	public Todo delete(Integer id) {
+		Map<Integer, Todo> map = Database.getInstance().getMap();
+		return map.remove(id);
+	}
+	
+	public Todo getAll(Todo todo) {
+		Map<Integer, Todo> map = Database.getInstance().getMap();
+		return map.put(todo.getId(), todo);
+	}
+}

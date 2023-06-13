@@ -1,0 +1,18 @@
+package fr.keyce.todo_list.services;
+
+import java.text.ParseException;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
+import fr.keyce.todo_list.model.Todo;
+
+public interface TodoService {
+
+	List<Todo> findAll();
+	void delete(Integer id);
+	Todo update(Todo todo);
+	Todo create(Todo todo);
+	Todo create(HttpServletRequest request) throws ParseException;
+	Todo update(HttpServletRequest request) throws ParseException;
+}

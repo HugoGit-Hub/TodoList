@@ -1,0 +1,23 @@
+package fr.keyce.todo_list.services.Impl;
+
+import java.util.List;
+
+import fr.keyce.todo_list.model.Todo;
+import fr.keyce.todo_list.services.TodoService;
+
+public class TodoServiceImpl implements TodoService {
+	
+	private final static TodoServiceImpl INSTANCE = new TodoServiceImpl();
+	
+	private TodoServiceImpl() {};
+
+	public static TodoServiceImple getInstance() {
+		return INSATANCE;
+	}
+	
+	@Override
+	public List<Todo> findAll() {
+		return null;
+	}
+
+}

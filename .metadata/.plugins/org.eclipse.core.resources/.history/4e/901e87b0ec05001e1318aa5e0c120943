@@ -1,0 +1,64 @@
+package fr.keyce.todo_list.controllers;
+
+import java.io.IOException;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import fr.keyce.todo_list.dao.TodoDao;
+import fr.keyce.todo_list.model.Priority;
+import fr.keyce.todo_list.model.Todo;
+import fr.keyce.todo_list.services.TodoService;
+import fr.keyce.todo_list.services.Impl.TodoServiceImpl;
+
+@WebServlet(name = "TodoListServlet", urlPatterns = "/TodoList")
+public class TodoListServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+	
+	private TodoService todoService = TodoServiceImpl.getInstance();
+       
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		System.out.println(request.getRequestURI() + " > forward vers /jsp/todoList.jsp");
+		List<Todo> todos = this.todoService.findAll();		
+		RequestDispatcher requestDispatcher = request.getRequestDispatcher("/jsp/todoList.jsp");
+		request.setAttribute("getAllTodo", todos);
+	
+		requestDispatcher.forward(request, response);
+	}
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String id = request.getParameter("id");
+		String todo = request.getParameter("todo");
+		String action = request.getParameter("action");
+		
+		switch (action) {
+			case "Supprimer": {
+				todoService.delete(Integer.parseInt(id));
+				response.sendRedirect("http://localhost:8080/todo-list/TodoList");
+				break;
+			}
+			case "Ajouter":
+				break;
+			case "Modifier":{
+				Todo update = new Todo();
+				String name = request.getParameter("name");
+				update.setName(name);
+				String description = request.getParameter("description");
+				update.setName(description);
+				Date creationDate = request.getParameter("creationDate");
+				update.setCreationDate(creationDate);
+				todoService.update(update);
+				break;
+			}
+			default:
+				throw new IllegalArgumentException("Unexpected value: ");
+		}
+	}
+}

@@ -1,0 +1,65 @@
+<%@page import="java.util.ArrayList"%>
+<%@page import="java.util.List"%>
+<%@page import="fr.keyce.todo_list.model.Todo"%>
+<%@page import="java.util.Map"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>TodoList</title>
+	</head>
+	<body>
+		<div>
+			<h1>TodoList</h1>
+			<% 
+				List<Todo> getAll = ((List<Todo>)request.getAttribute("getAllTodo"));
+				for (List<Todo> get : getAll) { 
+					Integer key = get.getKey();
+					Todo todo = get.getValue();
+			%>
+				<div style="margin:20px">
+					<% out.println(todo.getName()); %> /
+				 	<% out.println(todo.getDescription()); %> /
+				 	<% out.println(todo.getCreationDate()); %> /
+				 	<% out.println(todo.getDeadLine()); %> /
+				 	<% out.println(todo.getPriority()); %>
+				 	<form method="post" action="http://localhost:8080/todo-list/TodoList">
+						<input type="hidden" name="id" value="<%= key %>">
+						<input type="submit" name="action" value="Supprimer">
+					</form>
+					<form method="post" action="http://localhost:8080/todo-list/TodoList">
+						<input type="hidden" name="todo" value="<%= todo %>">
+						<input type="submit" name="action" value="Modifier">
+					</form>
+				</div>
+			<% } %>
+		</div>
+		<br/><br/>
+		<div>
+			<form method="post" action="http://localhost:8080/todo-list/TodoList">
+				<label for="name">Name:</label>
+				<input type="text" id="name" name="name"><br>
+				
+				<label for="description">Description:</label>
+				<input type="text" id="description" name="description"><br>
+				
+				<label for="creationDate">Creation Date:</label>
+				<input type="date" id="creationDate" name="creationDate"><br>
+				
+				<label for="deadLine">Deadline:</label>
+				<input type="date" id="deadLine" name="deadLine"><br>
+				
+				<label for="priority">Priority:</label>
+				<select id="priority" name="priority">
+					<option value="LOW">Low</option>
+					<option value="NORMAL">Normal</option>
+					<option value="HIGH">High</option>
+				</select><br>
+				
+				<input type="submit" value="Ajouter">
+			</form>
+		</div>
+	</body>
+</html>

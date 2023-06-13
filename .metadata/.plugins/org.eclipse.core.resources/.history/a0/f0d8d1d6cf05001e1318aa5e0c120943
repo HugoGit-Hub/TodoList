@@ -1,0 +1,11 @@
+package fr.keyce.todo_list.services.copy;
+
+import java.util.List;
+
+import fr.keyce.todo_list.model.Todo;
+
+public interface TodoService {
+
+	List<Todo> findAll();
+
+}
